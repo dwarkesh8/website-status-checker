@@ -85,7 +85,7 @@ function checkWebsiteStatus() {
   foreach ($responses as $response) {
     $html .= '<tr>';
     $html .= "<td>{$response['url']}</td>";
-    $html .= "<td class='" . ($response['status'] == 200 ? 'up' : 'down') . "'>{$response['status']}</td>";
+    $html .= "<td>".($response['status'] == 200 ? '<span class="badge bg-success">UP</span>' : '<span class="badge bg-secondary">Down</span>')."</td>";
     $html .= "<td><button class='btn btn-danger' id='{$response['id']}'>Delete</button></td>";
     $html .= '</tr>';
   }

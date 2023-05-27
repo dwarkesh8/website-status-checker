@@ -4,6 +4,7 @@ $(document).ready(function(){
     if (url != '' && url != null && url.length > 0) {
       $.post('server/api.php',{cmd:'add',url:url},function(resp){
         console.log(resp);
+        $('#url').val('')
       });
     }
   })

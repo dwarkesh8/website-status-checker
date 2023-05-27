@@ -18,7 +18,7 @@
 <body>
   <div class="container">
 
-    <h1>Website Status Checker</h1>
+    <h1 class="mt-1">Website Status Checker</h1>
 
     <div class="mt-5 col-md-4 mx-auto">
       <form method="POST" action="#" onsubmit="return false;">
