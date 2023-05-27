@@ -1,0 +1,15 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.up {
+  color: green;
+}
+
+.down {
+  color: red;
+}
