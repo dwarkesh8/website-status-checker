@@ -27,23 +27,71 @@ function checkWebsiteStatus() {
   $urls = array();
   if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-      $urls[] = $row;
+      $urls[$row['id']] = $row;
     }
   }
-  $html = '';
-  foreach ($urls as $url) {
-    $ch = curl_init($url['url']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
 
+  // Create multi-cURL handle
+  $multiCurl = curl_multi_init();
+
+  // Create an array to store individual cURL handles
+  $curlHandles = array();
+
+  // Create an array to store the cURL responses
+  $responses = array();
+
+  foreach ($urls as $urlId => $url) {
+    $curl = curl_init($url['url']);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    // Add the cURL handle to the multi-cURL handle
+    curl_multi_add_handle($multiCurl, $curl);
+
+    // Store the cURL handle and ID in the array
+    $curlHandles[] = array(
+      'handle' => $curl,
+      'id' => $urlId
+    );
+  }
+
+  // Execute the multi-cURL requests
+  $running = null;
+  do {
+    curl_multi_exec($multiCurl, $running);
+  } while ($running > 0);
+
+  // Get the responses and close the cURL handles
+  foreach ($curlHandles as $curlData) {
+    $curl = $curlData['handle'];
+    $response = curl_multi_getcontent($curl);
+    $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_multi_remove_handle($multiCurl, $curl);
+    curl_close($curl);
+
+    $urlId = $curlData['id'];
+    $url = $urls[$urlId]['url'];
+    $responses[] = array(
+      'url' => $url,
+      'status' => $status,
+      'id' => $urlId
+    );
+  }
+
+  // Close the multi-cURL handle
+  curl_multi_close($multiCurl);
+
+  // Generate the HTML table
+  $html = '';
+  foreach ($responses as $response) {
     $html .= '<tr>';
-    $html .= "<td>{$url['url']}</td>";
-    $html .= "<td class='" . ($status == 200 ? 'up' : 'down') . "'>$status</td>";
-    $html .= "<td><button class='btn btn-danger' id='{$url['id']}'>Delete</button></td>";
+    $html .= "<td>{$response['url']}</td>";
+    $html .= "<td class='" . ($response['status'] == 200 ? 'up' : 'down') . "'>{$response['status']}</td>";
+    $html .= "<td><button class='btn btn-danger' id='{$response['id']}'>Delete</button></td>";
     $html .= '</tr>';
   }
+
   echo $html;
 }
+
+
 ?>

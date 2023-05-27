@@ -29,5 +29,5 @@ $(document).ready(function(){
   checkStatus();
   setInterval(function(){
     checkStatus();
-  },10000);
+  },2000);
 });
