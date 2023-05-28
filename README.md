@@ -7,4 +7,8 @@ PHP web application that checks website's status whether it's UP or not. Useful 
 - start webserver along with mysql db server
 - visit URL in your browser. Ex: http://localhost/website-status-checker/
 
+## Sample Screenshot
+![alt text](https://github.com/dwarkesh8/website-status-checker/blob/main/website-status-checker-ss.png)
+
+
 
