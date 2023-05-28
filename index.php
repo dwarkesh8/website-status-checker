@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="keywords" content="website status checker, is my site up, php website checker tool">
   <meta name="description" content="PHP web application that checks website's status whether it's UP or not. Useful to track and watch multiple website status on single page. You can add URL and also delete from the list when it's not needed anymore.">
   <meta name="author" content="Dwarkesh Purohit">
